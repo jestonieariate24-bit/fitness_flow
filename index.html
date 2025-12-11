@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fitness Flow | Weekly Plan</title>
+  <style>
+    /* ===== Base Styling ===== */
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: radial-gradient(circle at top, #101820, #0a0f14);
+      color: #fff;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      text-align: center;
+      padding: 60px 20px 20px;
+      background: linear-gradient(90deg, #00c853, #00acc1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-transform: uppercase;
+      font-weight: 800;
+      font-size: 2.4em;
+      letter-spacing: 2px;
+      text-shadow: 0 0 15px rgba(0, 200, 83, 0.4);
+    }
+
+    header p {
+      color: #b2dfdb;
+      text-align: center;
+      margin-top: -10px;
+      font-size: 1.1em;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    /* ===== Tabs ===== */
+    .tabs {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 30px;
+    }
+
+    .tab {
+      background: #1b262c;
+      color: #00e676;
+      padding: 10px 18px;
+      border-radius: 25px;
+      cursor: pointer;
+      border: 1px solid #00e67633;
+      transition: all 0.3s ease;
+      font-weight: 600;
+    }
+
+    .tab:hover {
+      background: #00e67622;
+      transform: scale(1.05);
+    }
+
+    .tab.active {
+      background: linear-gradient(90deg, #00c853, #00acc1);
+      color: #fff;
+      box-shadow: 0 0 10px rgba(0, 230, 118, 0.6);
+    }
+
+    /* ===== Activities ===== */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+      gap: 20px;
+    }
+
+    .activity {
+      background: #161d23;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      border: 1px solid #263238;
+      transition: all 0.3s ease;
+    }
+
+    .activity:hover {
+      transform: translateY(-5px) scale(1.02);
+      box-shadow: 0 10px 25px rgba(0, 230, 118, 0.25);
+    }
+
+    .activity img {
+      width: 100%;
+      height: 180px; 
+      object-fit: fill; /* *** Set to fill to perfectly fit the space (may distort image) *** */
+      display: block; 
+    }
+
+    .activity-content {
+      padding: 15px 20px 20px;
+    }
+
+    .activity-content p {
+      font-size: 0.95em;
+      color: #cfd8dc;
+    }
+
+    .activity-content strong {
+      color: #00e676;
+    }
+
+    /* ===== Timer Section ===== */
+    .timer {
+      text-align: center;
+      margin-top: 60px;
+      background: linear-gradient(145deg, #0e161b, #141c21);
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: inset 0 0 15px rgba(0, 230, 118, 0.15);
+    }
+
+    #display {
+      font-size: 3em;
+      font-weight: 700;
+      color: #00e676;
+      margin: 20px 0;
+      letter-spacing: 2px;
+      text-shadow: 0 0 15px rgba(0, 230, 118, 0.7);
+    }
+
+    .circle {
+      position: relative;
+      width: 150px;
+      height: 150px;
+      margin: 20px auto;
+      border-radius: 50%;
+      background: conic-gradient(#00e676 0deg, #1b5e20 0deg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 20px rgba(0, 230, 118, 0.3);
+    }
+
+    .circle::after {
+      content: '';
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      background: #0f1519;
+      border-radius: 50%;
+    }
+
+    .circle span {
+      position: relative;
+      font-size: 1.5em;
+      font-weight: bold;
+      color: #00e676;
+      z-index: 2;
+    }
+
+    button {
+      background: linear-gradient(90deg, #00c853, #00acc1);
+      border: none;
+      color: white;
+      padding: 12px 30px;
+      border-radius: 50px;
+      margin: 5px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 1em;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    button:hover {
+      background: linear-gradient(90deg, #00acc1, #00c853);
+      transform: scale(1.05);
+      box-shadow: 0 0 15px rgba(0, 230, 118, 0.4);
+    }
+
+    footer {
+      text-align: center;
+      padding: 25px;
+      color: #888;
+      margin-top: 40px;
+      font-size: 0.9em;
+      border-top: 1px solid #263238;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    Fitness Flow
+    <p>Your 7-Day Journey to Movement & Mindfulness</p>
+  </header>
+
+  <div class="container">
+    <div class="tabs">
+      <div class="tab active" data-day="monday">Mon</div>
+      <div class="tab" data-day="tuesday">Tue</div>
+      <div class="tab" data-day="wednesday">Wed</div>
+      <div class="tab" data-day="thursday">Thu</div>
+      <div class="tab" data-day="friday">Fri</div>
+      <div class="tab" data-day="saturday">Sat</div>
+      <div class="tab" data-day="sunday">Sun</div>
+    </div>
+
+    <div id="activities" class="grid"></div>
+
+    <section class="timer">
+      <h2>Workout Timer</h2>
+      <div class="circle"><span id="circleTime">00:00</span></div>
+      <div id="display">00:00:00</div>
+      <button id="startBtn">Start</button>
+      <button id="pauseBtn">Pause</button>
+      <button id="resetBtn">Reset</button>
+    </section>
+  </div>
+
+  <footer>
+    © 2025 Fitness Flow — Train Smart. Move Strong.
+  </footer>
+
+  <script>
+    /* ===== Weekly Activities ===== */
+    const routines = {
+      monday: [
+        {img: "https://png.pngtree.com/png-vector/20231211/ourmid/pngtree-muscles-map-png-image_10879859.png", text: "Morning Stretch (10 mins): Start your week with gentle stretching to increase flexibility."},
+        {img: "https://png.pngtree.com/png-vector/20230910/ourmid/pngtree-man-doing-yoga-fresh-png-image_9913602.png", text: "Yoga Flow (15 mins): Ease into movement and open up your posture."},
+      ],
+      tuesday: [
+        {img: "https://static.vecteezy.com/system/resources/thumbnails/066/088/616/small/a-vibrant-illustration-of-a-walking-human-figure-highlighting-skeletal-and-muscular-structures-in-bright-colors-png.png", text: "Brisk Walk (25 mins): Light cardio for stamina and energy."},
+        {img: "https://static.vecteezy.com/system/resources/thumbnails/072/758/950/small/woman-practicing-yoga-meditation-pose-for-relaxation-and-wellness-fitness-lifestyle-healthy-body-mind-spirit-on-transparent-background-png.png", text: "Evening Meditation (10 mins): Breathe and unwind your mind."},
+      ],
+      wednesday: [
+        {img: "https://static.vecteezy.com/system/resources/thumbnails/053/716/597/small/illustration-of-a-person-in-a-plank-position-focusing-on-core-strength-and-fitness-highlighting-exercise-and-body-conditioning-png.png", text: "Dynamic Warm-up (10 mins): Loosen up muscles and boost blood flow."},
+        {img: "https://lh3.googleusercontent.com/rd-gg-dl/ABS2GSmrT86Q07C0CZtGThx0QJfCOW_IRAImKhnNzJgobOKJRXaYQujT70js-VnsVjjQV1CCoaodefouRNOshPSXlK45I_nlA3zCOZmpcrJBNY7uuBORz8xu9zq5gk56SeOda3vi7EttC2b46nYaKTtELseD5hGmyzKqTqCX56sk4Qoq7aw5GxTqvv9-uQlSGXf-TO2AkktNGlDr0uzEK0kFsq8OehvBxhZQKkjop1VGlnONqNeh6KF0eiYBbN59PWHOr6UdSGR3uqIuD8MY6P0-gBSFxLg6HLsuuCFjI4SuFIEIwQcMnUYG8vf_eS7DWnf0nBeeLPlrG-5C4JQm5WKi_XZ3gGIzf3caSjTFL89EYOxYgdiecDy2JVEb7Uy45Ob5-_hmLAcB-gMTpdwGta3hobnYn3VRcVmvC4cp4TtxTHvKensiIISnet05Vr-THw9kb2tmEGFI3_eKPMb0Qk9SS1aa3G9VTh6i9jaelqVCt_XDMsx8a5fmqXLossuDZhY6xpEz3PTFdl5j71EXGNhInuHfZ1mt_wYlEPDssCVkwOQ8ZpKT3kFDPq_PeDqxp5qaHbGINqh2M6Int72SUZb_BjZ46PxZbtosNzXGrCCfAgFbRCO6e-MT5ZcNnzZy40ClKsKe9XOSQEbsDmBqnasC3yF-Fj0Uv-cO3rBSELBeXgYN_CQfl09Zr0TcSLREn8-UtH0V5L1GRv7s8DLo_q6wzm4iBbxFsFSPr-fmxkHoVGjM8gLS4r1IFOkuLVBDUu71MLo2XO1E5OdlHDozPHgJQuqAHea-CMwPao9APZqe8-mN1nPcS0xYHFlci0_k3bAj4S6AY3F4_Vixu3Yx8ssoAyrFCv1JB4XsddcmcF5oo3RmH-y7_PxDVIoOXDQyfRWiwGx8IdZjIOgHBepJKymSd2Z3Zg88rqtbx5j03ffdzZuj6XO3Q8CLuylmOW8_oO_rMnxnNNrzeoMKrrVoOYuVKc5KR3hP3RGFnvMJI9PKgPt1BvcvQ6BYmjtJ8ES2U9ryZsfLNIMfc6sG4-J4DmJA3vj8a8A7xpQIViQBIi0ayFvKrK8wmZb3C8F6VnJz-bT_ekwR2FUm97DjdYyoG2vBUxx8vtaTBwCUzPuhRYD_YBYF05WeTfyvS7KERKiEWHuEr_QbgC-AtvHZa9KeP-SowxAVCURRgRs9SLwxBqEr2LIP_WQU98UrZm4=s1024-rj", text: "Breathing Exercise (5 mins): Deep and rhythmic breathing to reset your energy."},
+      ],
+      thursday: [
+        {img: "https://lh3.googleusercontent.com/rd-gg-dl/ABS2GSlRHsDoHa-kFlyr-mHkv36_HfpFnoIZXZfLi9yvGq-z9Lnhg24bPhObptW5r9gm-q4jf3fE13BQPobS6cew6rjk1T4yEj1V1LZ9YP1bgnmde6iTFrGZIa3iI-7CV60_hTwzTwT5ojO0x-92psPx42FLnTVBClJviz6hTl74EaEJfD8h_ad1mXwxJbuvjwE7cRrfG6VyzFp3FCpmpqXBGKJy_9PBlAOqYMq5SCccE4eK6lLksOMgTrw_lRnFkT0h8Tmd_Vsn54m7_HC250XJPs0llkHgFI5Aj8v9QfcUsSRruiIKVdKyhr_qbVz0pWtv_NAU8_qur8tsDV6RfCFuVn7U6AjNiWXYYFRx7CIK_19unmvu0bfV9mFcvJ4VDDSp5iaa3xGOqEBfoaUr1m_cJ0_KdJFLE2U4tvpwv-wEpHsEFOj-fdWu5-_og1UtH49H4gcZLMGkj76KVGqRTn_4MROtuA_Yk-IAwlgyW_-B_M_gu18TZagvdtsJMy3JJyXiyhfNZeKNn7i4Emq1sPT91o5-D4ezK6vyTetd1ZNH1y7X-r58xrG5NNi2vh5Ef7oXpL9BV0IUNpEZXRsGZ-TKuZ9q51oD5me7jR-UULss8n7kkiSOO8L9IIO1dPm7qf75--v1sZVgGxFh0CXqwg8_-wQEq8Kr5k79lfJnqbSvyE0DGDANkKQZgFL54WLQcZMAgGUE5U3d5WB_2eN6GiKEOpq_LA-xuHC8AR6vjTLn5CSLqSUfz1g-Kl2i3elalWmpkwicGnOoTKisf77YIh2NzPm2XE2cEGFylcvEOVCs8i_9efzsI7FfKZC6v2bqCuQGqbQohKlr9TOqnDlNpq3z6XuJz4VXb5Q1ZM_Yaykx3LurULX3xc8jVE2aYZJ1H1yGSOQ1JUMoYVH0GcaguNUeq7srK85VouORc9ZYRwlFheYfqcGCrrDinXoJ4TnaZvJyG1O7VxUq49tWOTxM_z_UXY7eTmumllJH0uWyw6sZAHvXgDRN5qsQ3rsdlYL3fky0cy3gqaNM1PWayu3tfdvGMTHOUrNpk8QozbnKUKrf0VXkMXQx_84CJKD22vYGRtI-9Ov2VNjWGRexIEJ3jds4ihdOs6hIOuez0xBDoIiXga2SdCuhu29lpdNpPjrIT8bkjei0TXUHP7d5TxrEOX1xPxsqgvCUCOUq3KcUiHBR4fwBKRa_dah_fXI=s1024-rj", text: "Yoga Core (20 mins): Strengthen your abs and balance."},
+        {img: "https://images.squarespace-cdn.com/content/v1/5cd1bd0134c4e21b22183f10/1618251472126-ILOVK64FBGP23N7OWE2B/7.jpg", text: "Calming Meditation (10 mins): Relax your mind and body."},
+      ],
+      friday: [
+        {img: "https://liftmanual.com/wp-content/uploads/2023/04/walking.jpg", text: "Power Walk (20 mins): Move with purpose, stay active."},
+        {img: "https://www.ommagazine.com/wp-content/uploads/bb-plugin/cache/anatomy1-landscape-e0110125b273136217b207ed88298ae6-5f33d3900fce1.jpg", text: "Full Body Stretch (10 mins): Cool down before the weekend."},
+      ],
+      saturday: [
+        {img: "https://www.rishikulyogshalarishikesh.com/blog/wp-content/uploads/2024/06/yoga-anatomy.jpg", text: "Morning Yoga (15 mins): Wake up your body and spirit."},
+        {img: "https://images.pexels.com/photos/30988465/pexels-photo-30988465.jpeg?auto=compress&cs=tinysrgb&h=627&fit=crop&w=1200", text: "Evening Walk (30 mins): Refresh and breathe easy."},
+      ],
+      sunday: [
+        {img: "https://images.squarespace-cdn.com/content/v1/5a89e378f09ca4212d987f8c/0baa7249-55c7-429f-8253-1cfaeb759269/athletic-woman-practicing-yoga-doing-breathing-exercise-lotus-positing-beach-rock.jpg", text: "Breathing & Mindfulness (10 mins): Gentle morning reset."},
+        {img: "https://cloudimages.myyogateacher.com/dgerdfai4/image/upload/v1572073938/blog/posts/ph9pqmx0xrr8zask8m8j.png", text: "Yoga Stretch (20 mins): Calm your body for the week ahead."},
+      ]
+    };
+
+    const activitiesContainer = document.getElementById('activities');
+    const tabs = document.querySelectorAll('.tab');
+
+    function loadDay(day) {
+      activitiesContainer.innerHTML = "";
+      routines[day].forEach(a => {
+        const card = document.createElement('div');
+        card.className = "activity";
+        card.innerHTML = `
+          <img src="${a.img}" alt="Exercise">
+          <div class="activity-content"><p><strong>${a.text}</strong></p></div>
+        `;
+        activitiesContainer.appendChild(card);
+      });
+    }
+
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelector('.tab.active').classList.remove('active');
+        tab.classList.add('active');
+        loadDay(tab.dataset.day);
+      });
+    });
+
+    loadDay("monday");
+
+    /* ===== Timer ===== */
+    let seconds = 0;
+    let timer = null;
+    const display = document.getElementById("display");
+    const circleTime = document.getElementById("circleTime");
+    const circle = document.querySelector(".circle");
+
+    function formatTime(sec) {
+      const hrs = String(Math.floor(sec / 3600)).padStart(2, '0');
+      const mins = String(Math.floor((sec % 3600) / 60)).padStart(2, '0');
+      const secs = String(sec % 60).padStart(2, '0');
+      return `${hrs}:${mins}:${secs}`;
+    }
+
+    function updateDisplay() {
+      display.textContent = formatTime(seconds);
+      const mins = String(Math.floor(seconds / 60)).padStart(2, '0');
+      const secs = String(seconds % 60).padStart(2, '0');
+      circleTime.textContent = `${mins}:${secs}`;
+      const percent = (seconds % 60) / 60 * 360;
+      circle.style.background = `conic-gradient(#00e676 ${percent}deg, #1b5e20 ${percent}deg)`;
+    }
+
+    function startTimer() {
+      if (timer) return;
+      timer = setInterval(() => {
+        seconds++;
+        updateDisplay();
+      }, 1000);
+    }
+
+    function pauseTimer() {
+      clearInterval(timer);
+      timer = null;
+    }
+
+    function resetTimer() {
+      pauseTimer();
+      seconds = 0;
+      updateDisplay();
+      circle.style.background = `conic-gradient(#00e676 0deg, #1b5e20 0deg)`;
+    }
+
+    document.getElementById("startBtn").addEventListener("click", startTimer);
+    document.getElementById("pauseBtn").addEventListener("click", pauseTimer);
+    document.getElementById("resetBtn").addEventListener("click", resetTimer);
+  </script>
+</body>
+</html>
